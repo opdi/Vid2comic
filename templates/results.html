@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Comic Panels - Video to Comic Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Your Comic Panels</h1>
+            <p class="tagline">Here's your video transformed into a comic strip</p>
+        </header>
+
+        <main>
+            <section class="results-section">
+                <div class="card">
+                    <div class="results-header">
+                        <h2>Generated Comic</h2>
+                        <a href="{{ url_for('index') }}" class="btn secondary">Create Another</a>
+                    </div>
+                    
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <div class="flash-messages">
+                                {% for message in messages %}
+                                    <div class="flash-message">{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                    
+                    {% if images %}
+                        <div class="comic-grid">
+                            {% for image in images %}
+                                <div class="comic-panel">
+                                    <img src="{{ url_for('get_output', filename=image) }}" alt="Comic panel {{ loop.index }}">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="download-section">
+                            <p>Right-click on any panel to save it individually, or download the complete set:</p>
+                            <a href="#" class="btn primary download-all">Download All Panels (ZIP)</a>
+                        </div>
+                    {% else %}
+                        <div class="no-results">
+                            <p>No comic panels were generated. Please try again with a different video.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Video to Comic Generator | Powered by AI</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
