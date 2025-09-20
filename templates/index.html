@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video to Comic Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        @font-face {
+            font-family: 'Yoruka';
+            src: url("{{ url_for('static', filename='yoruka.regular.otf') }}") format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        h1 {
+            font-family: 'Yoruka', sans-serif;
+        }
+
+        /* Keep the existing Google Font as fallback */
+        @import url('https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap');
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Video to Comic Generator</h1>
+            <p class="tagline">Transform your videos into stylized comic panels with AI</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <div class="card">
+                    <!-- <h2>Upload Your Video</h2> -->
+
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="flash-messages">
+                        {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+                        <div class="input-div">
+                            <label for="video" class="label-video">
+                                <input class="input" name="video" type="file" id="video"
+                                    accept=".mp4,.avi,.mov,.wmv,.mkv">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round"
+                                    stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none"
+                                    stroke="currentColor" class="icon">
+                                    <polyline points="16 16 12 12 8 16"></polyline>
+                                    <line y2="21" x2="12" y1="12" x1="12"></line>
+                                    <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+                                    <polyline points="16 16 12 12 8 16"></polyline>
+                                </svg>
+                                <p class="up-vid-txt">Upload Video Here</p>
+                            </label>
+                        </div>
+                    
+                        <div class="form-group">
+                            <select id="style_image" name="style_image">
+                                <option value="static/styles/comic_style.jpg">Classic Comic</option>
+                                <option value="static/styles/manga_style.jpg">Manga</option>
+                                <option value="static/styles/noir_style.jpg">Noir</option>
+                                <option value="static/styles/watercolor_style.jpg">Watercolor</option>
+                            </select>
+                        </div>
+                    
+                        <button type="submit" class="button">
+                            <span>Submit</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="info-section">
+                <div class="card">
+                    <h2>How It Works</h2>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-desc">Upload a video (under 50MB)</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-desc">Our AI extracts frames and audio</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-desc">Audio is converted to speech bubbles</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-desc">Frames are styled into comic panels</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Video to Comic Generator | Powered by AI</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
